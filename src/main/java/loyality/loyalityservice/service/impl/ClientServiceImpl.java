@@ -23,6 +23,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto createClient(Long companyId, ClientDto clientDto) {
         Client client = ClientMapper.mapToClient(clientDto);
         client.setCompanyId(companyId);
+        client.setBalance(0);
         Client savedClient = clientRepository.save(client);
 
         return ClientMapper.mapToClientDto(savedClient);

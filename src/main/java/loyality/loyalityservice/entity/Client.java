@@ -29,5 +29,7 @@ public class Client {
     private String qrLink;
     @Column(name="company_id")
     private Long companyId;
+    @Column(name="balance" , columnDefinition = "integer default 0")
+    private Integer balance;//баллы клиента
 
 }

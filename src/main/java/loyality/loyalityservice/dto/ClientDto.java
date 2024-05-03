@@ -20,4 +20,6 @@ public class ClientDto {
     private String phone;
     private String qrLink;
     private Long companyId;
+    private Integer balance;
+
 }

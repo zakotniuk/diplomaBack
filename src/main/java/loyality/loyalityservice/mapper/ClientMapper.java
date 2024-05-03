@@ -12,7 +12,8 @@ public class ClientMapper {
                 client.getBirth_date(),
                 client.getPhone(),
                 client.getQrLink(),
-                client.getCompanyId()
+                client.getCompanyId(),
+                client.getBalance()
         );
     }
 
@@ -24,8 +25,8 @@ public class ClientMapper {
                 clientDto.getBirth_date(),
                 clientDto.getPhone(),
                 clientDto.getQrLink(),
-                clientDto.getCompanyId()
-
+                clientDto.getCompanyId(),
+                clientDto.getBalance()
         );
     }
 }
