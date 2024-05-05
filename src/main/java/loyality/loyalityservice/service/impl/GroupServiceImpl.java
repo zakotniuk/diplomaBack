@@ -20,7 +20,6 @@ public class GroupServiceImpl implements GroupService {
 
     private GroupRepository groupRepository;
 
-
     @Override
     //клиенты ищутся по определенной компании!
     public List<GroupDto> getAllGroups(Long companyId) {
@@ -46,20 +45,15 @@ public class GroupServiceImpl implements GroupService {
             group.setCondition(100);
             group.setDiscount(10);
             //если у компании еще нет групп, то ставим новую группу группой по умолчанию
-
-            System.out.println("check:"+ groupRepository.findByCompanyId(companyId));
-
             if(groupRepository.findByCompanyId(companyId) == null || groupRepository.findByCompanyId(companyId).isEmpty()){
                 group.setIsDefault(true);
             }else{
+                //иначе оставляем не дефолтной
                 group.setIsDefault(false);
-
             }
             savedGroup = groupRepository.save(group);
-
         }else{
             throw new ResourceNotFoundException("Лимит по количеству групп - 5 групп!");
-
         }
 
         return GroupMapper.mapToGroupDto(savedGroup);
@@ -80,7 +74,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public GroupDto updateGroup(Long companyId, Long groupId, GroupDto updatedGroup) {
-        Long defGroupId = groupRepository.getDefGroup(companyId);
 
         //проверка, существует ли group
         Group group = groupRepository.findById(groupId)
@@ -106,6 +99,11 @@ public class GroupServiceImpl implements GroupService {
             resetDefaultGroup(companyId);
             //и сделать выбранную группу группой по умолчанию
             updatedGroup.setIsDefault(true);
+        }
+
+        //Проверка, что группу не присвоят другой компании//
+        if(updatedGroup.getCompanyId() != null && updatedGroup.getCompanyId() != group.getCompanyId() ){
+            throw new ResourceNotFoundException("Нельзя присвоить группу чужой компании!");
         }
 
         //записываем в объект только измененные поля
