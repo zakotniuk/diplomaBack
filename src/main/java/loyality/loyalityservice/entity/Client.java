@@ -23,12 +23,19 @@ public class Client {
     @Column(name="name")
     private String clientName;
     private String email;
-    private Date birth_date;
+    @Column(name="birth_date")
+    private Date birthDate;
     private String phone;
     @Column(name="qr_link")
     private String qrLink;
+    private Long balance;//баллы клиента
+    @Column(name="total_money")
+    private Long totalMoneySpend; //сумма всех покупок за все время
+
     @Column(name="company_id")
     private Long companyId;
-    private Integer balance;//баллы клиента
+
+    @Column(name="group_id")
+    private Long groupId;
 
 }

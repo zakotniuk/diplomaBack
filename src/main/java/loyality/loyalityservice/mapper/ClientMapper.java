@@ -9,11 +9,14 @@ public class ClientMapper {
                 client.getId(),
                 client.getClientName(),
                 client.getEmail(),
-                client.getBirth_date(),
+                client.getBirthDate(),
                 client.getPhone(),
                 client.getQrLink(),
+                client.getBalance(),
+                client.getTotalMoneySpend(),
                 client.getCompanyId(),
-                client.getBalance()
+                client.getGroupId()
+
         );
     }
 
@@ -22,11 +25,13 @@ public class ClientMapper {
                 clientDto.getId(),
                 clientDto.getClientName(),
                 clientDto.getEmail(),
-                clientDto.getBirth_date(),
+                clientDto.getBirthDate(),
                 clientDto.getPhone(),
                 clientDto.getQrLink(),
+                clientDto.getBalance(),
+                clientDto.getTotalMoneySpend(),
                 clientDto.getCompanyId(),
-                clientDto.getBalance()
+                clientDto.getGroupId()
         );
     }
 }

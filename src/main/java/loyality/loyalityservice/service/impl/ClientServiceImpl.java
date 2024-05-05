@@ -6,6 +6,7 @@ import loyality.loyalityservice.entity.Client;
 import loyality.loyalityservice.mapper.ClientMapper;
 import loyality.loyalityservice.repository.ClientRepository;
 import loyality.loyalityservice.repository.CompanyRepository;
+import loyality.loyalityservice.repository.GroupRepository;
 import loyality.loyalityservice.service.ClientService;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,22 @@ public class ClientServiceImpl implements ClientService {
 
     private CompanyRepository companyRepository;
     private ClientRepository clientRepository;
+    private GroupRepository groupRepository;
     @Override
     //клиент создается в определенной компании!
     public ClientDto createClient(Long companyId, ClientDto clientDto) {
+
         Client client = ClientMapper.mapToClient(clientDto);
         client.setCompanyId(companyId);
-        client.setBalance(0);
-        Client savedClient = clientRepository.save(client);
+        client.setBalance(0L);
+        client.setTotalMoneySpend(0L);
 
+        //ищем дефолтную группу компании, которая должна присвоиться клиенту по умолчанию
+        Long gId = groupRepository.getDefGroup(companyId);
+        //задаем группу по умолчанию (в рамках конкретной компании)
+        client.setGroupId(gId);
+
+        Client savedClient = clientRepository.save(client);
         return ClientMapper.mapToClientDto(savedClient);
     }
 

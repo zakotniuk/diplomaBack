@@ -16,10 +16,12 @@ public class ClientDto {
     private Long id;
     private String clientName;
     private String email;
-    private Date birth_date;
+    private Date birthDate;
     private String phone;
     private String qrLink;
+    private Long balance;//баллы клиента
+    private Long totalMoneySpend; //сумма всех покупок за все время
     private Long companyId;
-    private Integer balance;
+    private Long groupId;
 
 }

@@ -3,8 +3,11 @@ package loyality.loyalityservice.controller;
 import lombok.AllArgsConstructor;
 
 import loyality.loyalityservice.dto.ClientDto;
+import loyality.loyalityservice.dto.GroupDto;
+import loyality.loyalityservice.entity.Company;
 import loyality.loyalityservice.service.ClientService;
 import loyality.loyalityservice.service.CompanyService;
+import loyality.loyalityservice.service.GroupService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,7 @@ public class CompanyController {
 
     private CompanyService companyService;
     private ClientService clientService;
+    private GroupService groupService;
 
     @PostMapping()
     public ResponseEntity<CompanyDto> createCompany (@RequestBody CompanyDto companyDto){
@@ -49,5 +53,27 @@ public class CompanyController {
     public ResponseEntity<ClientDto> createClient (@PathVariable("id") Long companyId, @RequestBody ClientDto clientDto){
         ClientDto savedClient = clientService.createClient(companyId, clientDto);
         return new ResponseEntity<>(savedClient, HttpStatus.CREATED);
+    }
+
+
+    //создание группы в компании
+    @PostMapping("/{id}/new-group")
+    public ResponseEntity<GroupDto> createGroup (@PathVariable("id") Long companyId, @RequestBody GroupDto groupDto){
+
+        GroupDto savedGroup = groupService.createGroup(companyId, groupDto);
+        return new ResponseEntity<>(savedGroup, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/all-groups")
+    public ResponseEntity<List<GroupDto>> getAllGroups (@PathVariable("id") Long companyId){
+        List<GroupDto> groups = groupService.getAllGroups(companyId);
+        return ResponseEntity.ok(groups);
+    }
+
+    @PatchMapping("/{id}/group/{group-id}")
+    public ResponseEntity<GroupDto> updateGroup (@PathVariable("id") Long companyId, @PathVariable("group-id") Long groupId, @RequestBody GroupDto groupDto){
+
+        GroupDto savedGroup = groupService.updateGroup(companyId, groupId, groupDto);
+        return new ResponseEntity<>(savedGroup, HttpStatus.CREATED);
     }
 }

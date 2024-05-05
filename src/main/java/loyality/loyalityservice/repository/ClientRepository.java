@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+    //метод для поиска списка клиентов по заданной компании
     List<Client> findByCompanyId(Long companyId);
 }
