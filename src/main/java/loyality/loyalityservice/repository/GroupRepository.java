@@ -14,6 +14,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findByCompanyId(Long companyId);
 //    Group findById(Long groupId);
 
+
     //@Modifying
     @Query(value = "SELECT id FROM groups g WHERE g.company_id=:companyId AND g.is_default IS TRUE", nativeQuery = true)
     Long getDefGroup(@Param(value="companyId") Long companyId);

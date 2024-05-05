@@ -32,15 +32,35 @@ public class GroupServiceImpl implements GroupService {
     @Override
     //группа создается в определенной компании!
     public GroupDto createGroup(Long companyId, GroupDto groupDto) {
-        Group group = GroupMapper.mapToGroup(groupDto);
-        group.setCompanyId(companyId);
-        group.setGroupName(groupDto.getGroupName() != null ? groupDto.getGroupName() : "Новая группа");
-        group.setCondition(100);
-        group.setDiscount(10);
-        //если у компании еще нет групп, то ставим новую группу группой по умолчанию
-        group.setIsDefault(groupRepository.findByCompanyId(companyId) != null ? false : true);
 
-        Group savedGroup = groupRepository.save(group);
+        //Лимит на кол-во групп в компании
+        Long col = groupRepository.findByCompanyId(companyId).stream().count();
+        System.out.println("col:"+ col);
+
+        Group group = null, savedGroup = null;
+
+        if (col < 5 || col == null){
+            group = GroupMapper.mapToGroup(groupDto);
+            group.setCompanyId(companyId);
+            group.setGroupName(groupDto.getGroupName() != null ? groupDto.getGroupName() : "Новая группа");
+            group.setCondition(100);
+            group.setDiscount(10);
+            //если у компании еще нет групп, то ставим новую группу группой по умолчанию
+
+            System.out.println("check:"+ groupRepository.findByCompanyId(companyId));
+
+            if(groupRepository.findByCompanyId(companyId) == null || groupRepository.findByCompanyId(companyId).isEmpty()){
+                group.setIsDefault(true);
+            }else{
+                group.setIsDefault(false);
+
+            }
+            savedGroup = groupRepository.save(group);
+
+        }else{
+            throw new ResourceNotFoundException("Лимит по количеству групп - 5 групп!");
+
+        }
 
         return GroupMapper.mapToGroupDto(savedGroup);
     }
