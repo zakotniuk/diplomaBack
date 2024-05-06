@@ -3,6 +3,7 @@ package loyality.loyalityservice.service.impl;
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.entity.Client;
+import loyality.loyalityservice.exception.ResourceNotFoundException;
 import loyality.loyalityservice.mapper.ClientMapper;
 import loyality.loyalityservice.repository.ClientRepository;
 import loyality.loyalityservice.repository.CompanyRepository;
@@ -46,5 +47,13 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clients = clientRepository.findByCompanyId(companyId);
         return clients.stream().map((client) -> ClientMapper.mapToClientDto(client))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ClientDto getClientInfo(Long companyId, Long clientId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(()->
+                    new ResourceNotFoundException("Указанного клиента не существует. ID="+ clientId));
+        return ClientMapper.mapToClientDto(client);
     }
 }

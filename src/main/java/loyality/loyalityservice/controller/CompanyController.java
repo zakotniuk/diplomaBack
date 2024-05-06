@@ -58,6 +58,12 @@ public class CompanyController {
         return new ResponseEntity<>(savedClient, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}/client-info/{client-id}")
+    public ResponseEntity<ClientDto> getClientInfo(@PathVariable("id") Long companyId, @PathVariable("client-id") Long clientId){
+        ClientDto client = clientService.getClientInfo(companyId, clientId);
+        return ResponseEntity.ok(client);
+    }
+
 
     //создание группы в компании
     @PostMapping("/{id}/new-group")
