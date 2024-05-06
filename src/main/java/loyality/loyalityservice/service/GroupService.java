@@ -17,4 +17,5 @@ public interface GroupService {
     //группы ищутся по определенной компании!
     List<GroupDto> getAllGroups(Long companyId);
 
+    void deleteGroup(Long companyId, Long groupId);
 }

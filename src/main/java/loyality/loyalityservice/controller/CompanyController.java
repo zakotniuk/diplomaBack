@@ -8,12 +8,15 @@ import loyality.loyalityservice.entity.Company;
 import loyality.loyalityservice.service.ClientService;
 import loyality.loyalityservice.service.CompanyService;
 import loyality.loyalityservice.service.GroupService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import loyality.loyalityservice.dto.CompanyDto;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin("*")
@@ -74,6 +77,15 @@ public class CompanyController {
     public ResponseEntity<GroupDto> updateGroup (@PathVariable("id") Long companyId, @PathVariable("group-id") Long groupId, @RequestBody GroupDto groupDto){
 
         GroupDto savedGroup = groupService.updateGroup(companyId, groupId, groupDto);
-        return new ResponseEntity<>(savedGroup, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedGroup, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}/group/{group-id}")
+    public ResponseEntity<String> deleteGroup (@PathVariable("id") Long companyId, @PathVariable("group-id") Long groupId){
+        groupService.deleteGroup(companyId, groupId);
+        JSONObject response = new JSONObject();
+        response.put("message", "Группа удалена!");
+        return  ResponseEntity.status(HttpStatus.OK).body(response.toString());
+    }
+
 }
