@@ -9,9 +9,10 @@ public class GroupMapper {
                 group.getId(),
                 group.getGroupName(),
                // group.getCompany(),
-                group.getCompanyId(), 
+                group.getCompanyId(),
                 group.getCondition(),
                 group.getDiscount(),
+                group.getAvailablePart(),
                 group.getIsDefault()
 
         );
@@ -25,6 +26,7 @@ public class GroupMapper {
                 groupDto.getCompanyId(),
                 groupDto.getCondition(),
                 groupDto.getDiscount(),
+                groupDto.getAvailablePart(),
                 groupDto.getIsDefault()
         );
     }

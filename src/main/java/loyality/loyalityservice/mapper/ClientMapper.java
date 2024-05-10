@@ -15,7 +15,9 @@ public class ClientMapper {
                 client.getBalance(),
                 client.getTotalMoneySpend(),
                 client.getCompanyId(),
-                client.getGroupId()
+                client.getGroupId(),
+                client.getBonusSumWriteOn(),
+                client.getBonusSumWriteOff()
 
         );
     }
@@ -31,7 +33,9 @@ public class ClientMapper {
                 clientDto.getBalance(),
                 clientDto.getTotalMoneySpend(),
                 clientDto.getCompanyId(),
-                clientDto.getGroupId()
+                clientDto.getGroupId(),
+                clientDto.getBonusSumWriteOn(),
+                clientDto.getBonusSumWriteOff()
         );
     }
 }

@@ -1,5 +1,6 @@
 package loyality.loyalityservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,5 +38,12 @@ public class Client {
 
     @Column(name="group_id")
     private Long groupId;
+
+    @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long bonusSumWriteOn;
+    @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long bonusSumWriteOff;
 
 }

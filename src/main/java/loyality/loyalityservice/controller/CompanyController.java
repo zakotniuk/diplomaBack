@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.dto.GroupDto;
-import loyality.loyalityservice.entity.Company;
 import loyality.loyalityservice.service.ClientService;
 import loyality.loyalityservice.service.CompanyService;
 import loyality.loyalityservice.service.GroupService;
@@ -14,9 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import loyality.loyalityservice.dto.CompanyDto;
 
-import java.util.HashMap;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 
 @CrossOrigin("*")
@@ -58,10 +58,37 @@ public class CompanyController {
         return new ResponseEntity<>(savedClient, HttpStatus.CREATED);
     }
 
+    //получение информации о клиенте
+    //при передаче query параметра "sum" расчитывает суммы  к начислению и списанию
     @GetMapping("/{id}/client-info/{client-id}")
-    public ResponseEntity<ClientDto> getClientInfo(@PathVariable("id") Long companyId, @PathVariable("client-id") Long clientId){
+    public ResponseEntity<ClientDto> getClientInfo(
+            @PathVariable("id") Long companyId,
+            @PathVariable("client-id") Long clientId,
+            @RequestParam("sum") Optional<Double> sum)
+    {
         ClientDto client = clientService.getClientInfo(companyId, clientId);
-        return ResponseEntity.ok(client);
+
+        //если в запросе передали сумму покупки,
+        // то метод сразу рассчитывает сумму доступную к начислению и списанию и отдает их в ответе
+        if (sum.isPresent()) {
+            Long [] bonusSums = clientService.getBonusSum(clientId, sum.orElseThrow());
+            client.setBonusSumWriteOn(bonusSums[0]);
+            client.setBonusSumWriteOff(bonusSums[1]);
+        }
+        return new ResponseEntity<>(client, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/client-info/{client-id}")//изменение клиента, в том числе и баланса
+    public ResponseEntity<ClientDto> updateClient (
+            @PathVariable("id") Long companyId,
+            @PathVariable("client-id") Long clientId,
+            @RequestBody ClientDto clientDto,
+            @RequestParam("sum") Optional<Double> sum,
+            @RequestParam("action") Optional<String> action){
+
+        ClientDto savedClient = clientService.updateClient(companyId, clientId, clientDto, sum, action);
+        return new ResponseEntity<>(savedClient, HttpStatus.OK);
+
     }
 
 

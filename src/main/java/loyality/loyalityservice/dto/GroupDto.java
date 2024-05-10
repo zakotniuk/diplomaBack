@@ -25,5 +25,6 @@ public class GroupDto {
     private Long companyId;
     private Integer condition; //кол-во бонусов на счете для перехода в эту группу (должно проверяться при начис/спис бонусов при покупке)
     private Integer discount;//размер скидки в процентах
+    private Integer availablePart; //часть, которую можно покрыть баллами (0-100%)
     private Boolean isDefault;//группа по умолчанию
 }
