@@ -3,7 +3,9 @@ package loyality.loyalityservice.service.impl;
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.dto.TransactionDto;
+import loyality.loyalityservice.entity.Client;
 import loyality.loyalityservice.entity.Transaction;
+import loyality.loyalityservice.mapper.ClientMapper;
 import loyality.loyalityservice.mapper.TransactionMapper;
 import loyality.loyalityservice.repository.TransactionRepository;
 import loyality.loyalityservice.service.TransactionService;
@@ -14,9 +16,8 @@ import java.time.LocalDateTime;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.SimpleTimeZone;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,18 +31,21 @@ public class TransactionServiceImpl implements TransactionService {
                                             String action,
                                             Double sum) {
 
-        //LocalDateTime currentDateTime = LocalDateTime.now();
-        //ZonedDateTime currentDateTime = ZonedDateTime.now(ZoneOffset.UTC);
         Date createDate = clientDto.getUpdateDate();
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-ss");
+        System.out.println(createDate);
 
         Transaction transaction = new Transaction();
+
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-ss");
         transaction.setTransactionId(generateTransactionId(clientId, dt1.format(createDate).toString()));
+
         transaction.setCompanyId(companyId);
         transaction.setClientId(clientId);
         transaction.setAction(action);
         transaction.setSum(sum);
-        transaction.setCreateDate(createDate.toString());
+
+        SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        transaction.setCreateDate(dt2.format(createDate).toString());
 
 
         Transaction savedTransaction = transactionRepository.save(transaction);
@@ -50,10 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public String generateTransactionId(Long clientId, String date) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        String transactionId = date + "_" + clientId.toString();
-
-        return transactionId;
+        return date.replace("-", "") + clientId.toString();
     }
 
 
@@ -61,5 +62,22 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDto> getAllTransactions(Long companyId) {
         return null;
+    }
+
+    @Override
+    public List<TransactionDto> getTransactions(Long companyId, Optional<String> startDate, Optional<String> endDate) {
+
+        List<Transaction> transactions = new ArrayList<>();
+
+        if (!startDate.isPresent()) {
+            transactions = transactionRepository.getLimitedCountTransactions(companyId, 100);
+        }
+        if (startDate.isPresent() && endDate.isPresent()){
+            transactions = transactionRepository.getTransactionsByPeriod(companyId,startDate.get(),endDate.get());
+        }
+
+        return transactions.stream().map((transaction) -> TransactionMapper.mapToTransactionDto(transaction))
+                .collect(Collectors.toList());
+
     }
 }

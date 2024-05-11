@@ -1,5 +1,6 @@
 package loyality.loyalityservice.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.EmployeeDto;
 import loyality.loyalityservice.service.EmployeeService;
@@ -12,9 +13,11 @@ import java.util.logging.Logger;
 
 @CrossOrigin("*")
 @AllArgsConstructor
+@Hidden
 @RestController//Аннотация @Controller - говорит о том, что данный класс является контроллером.
 // Контроллеры в Spring обрабатывают HTTP запросы на определенный адреса.
 @RequestMapping("/api/employees")
+
 
 public class EmployeeController {
 

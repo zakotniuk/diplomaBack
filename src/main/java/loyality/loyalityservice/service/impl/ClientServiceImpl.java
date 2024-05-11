@@ -2,6 +2,7 @@ package loyality.loyalityservice.service.impl;
 
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.ClientDto;
+import loyality.loyalityservice.dto.TransactionDto;
 import loyality.loyalityservice.entity.Client;
 import loyality.loyalityservice.entity.Group;
 import loyality.loyalityservice.entity.Transaction;
@@ -18,6 +19,7 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.awt.desktop.SystemSleepListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,13 +99,15 @@ public class ClientServiceImpl implements ClientService {
             throw new ResourceNotFoundException("Нельзя присвоить клиента чужой компании!");
         }
 
+        TransactionDto tr = new TransactionDto();
+
         if (sum.isPresent() && action.get().equals("WRITEON")){
             //передана сумма покупки и флаг "Начислить"
             Long [] bonusSums = new Long[2];
             bonusSums = this.getBonusSum(clientId, sum.get());
             if (bonusSums[0] > 0) {
                 updatedClient.setBalance(client.getBalance() + bonusSums[0]);
-                transactionService.createTransaction(companyId, clientId, updatedClient, action.get(), bonusSums[0].doubleValue());
+                tr =  transactionService.createTransaction(companyId, clientId, updatedClient, action.get(), bonusSums[0].doubleValue());
             }else{
                 System.out.println("Начислить ничего нельзя :)");
             }
@@ -115,7 +119,7 @@ public class ClientServiceImpl implements ClientService {
 
             if (bonusSums[1] > 0){
                 updatedClient.setBalance(client.getBalance() - bonusSums[1]);
-                transactionService.createTransaction(companyId, clientId, updatedClient, action.get(), bonusSums[1].doubleValue());
+                tr =  transactionService.createTransaction(companyId, clientId, updatedClient, action.get(), bonusSums[1].doubleValue());
                 client.setTotalMoneySpend(client.getTotalMoneySpend()+bonusSums[1]);
 
                 // менять группу если выполнено условие перехода в новую группу
@@ -130,6 +134,7 @@ public class ClientServiceImpl implements ClientService {
             }
         }
 
+        if (tr != null) System.out.println(tr.getTransactionId());
 
         //записываем в объект только измененные поля
         modelMapper.map(updatedClient, client);

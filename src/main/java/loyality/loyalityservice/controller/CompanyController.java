@@ -91,8 +91,24 @@ public class CompanyController {
             @RequestParam("action") Optional<String> action)
     {
         ClientDto savedClient = clientService.updateClient(companyId, clientId, clientDto, sum, action);
-        return new ResponseEntity<>(savedClient, HttpStatus.OK);
 
+//        JSONObject response = new JSONObject();
+//        response.put(savedClient);
+//        response.put("message", "Группа удалена!");
+//        return  ResponseEntity.status(HttpStatus.OK).body(response.toString());
+
+        return new ResponseEntity<ClientDto>(savedClient, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/{id}/transactions")
+    public ResponseEntity<List<TransactionDto>> getTransactions(
+            @PathVariable("id") Long companyId,
+            @RequestParam("startDate") Optional<String> startDate,
+            @RequestParam("endDate") Optional<String> endDate
+    ){
+        List<TransactionDto> transactions = transactionService.getTransactions(companyId, startDate, endDate);
+        return ResponseEntity.ok(transactions);
     }
 
 

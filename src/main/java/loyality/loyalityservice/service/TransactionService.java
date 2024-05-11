@@ -4,7 +4,9 @@ import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.dto.TransactionDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TransactionService {
@@ -16,4 +18,6 @@ public interface TransactionService {
                                      Double sum);
 
     List<TransactionDto> getAllTransactions(Long companyId);
+
+    List<TransactionDto> getTransactions(Long companyId, Optional<String> startDate, Optional<String> endDate);
 }
