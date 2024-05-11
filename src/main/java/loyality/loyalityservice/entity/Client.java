@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.mapstruct.Mapping;
 
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public class Client {
     private String clientName;
     private String email;
     @Column(name="birth_date")
-    private Date birthDate;
+    private String birthDate;
     private String phone;
     @Column(name="qr_link")
     private String qrLink;
@@ -39,6 +40,10 @@ public class Client {
     @Column(name="group_id")
     private Long groupId;
 
+
+    @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Date updateDate;
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long bonusSumWriteOn;

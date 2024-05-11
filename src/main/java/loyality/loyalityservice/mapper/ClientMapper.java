@@ -2,7 +2,10 @@ package loyality.loyalityservice.mapper;
 
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.entity.Client;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
+@Mapper
 public class ClientMapper {
     public static ClientDto mapToClientDto(Client client){
         return new ClientDto(
@@ -16,6 +19,8 @@ public class ClientMapper {
                 client.getTotalMoneySpend(),
                 client.getCompanyId(),
                 client.getGroupId(),
+
+                client.getUpdateDate(),
                 client.getBonusSumWriteOn(),
                 client.getBonusSumWriteOff()
 
@@ -34,6 +39,8 @@ public class ClientMapper {
                 clientDto.getTotalMoneySpend(),
                 clientDto.getCompanyId(),
                 clientDto.getGroupId(),
+
+                clientDto.getUpdateDate(),
                 clientDto.getBonusSumWriteOn(),
                 clientDto.getBonusSumWriteOff()
         );

@@ -3,6 +3,7 @@ package loyality.loyalityservice.service;
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.dto.GroupDto;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

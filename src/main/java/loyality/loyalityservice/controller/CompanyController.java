@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 
 import loyality.loyalityservice.dto.ClientDto;
 import loyality.loyalityservice.dto.GroupDto;
+import loyality.loyalityservice.dto.TransactionDto;
 import loyality.loyalityservice.service.ClientService;
 import loyality.loyalityservice.service.CompanyService;
 import loyality.loyalityservice.service.GroupService;
+import loyality.loyalityservice.service.TransactionService;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import loyality.loyalityservice.dto.CompanyDto;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ public class CompanyController {
     private CompanyService companyService;
     private ClientService clientService;
     private GroupService groupService;
+    private TransactionService transactionService;
 
     @PostMapping()
     public ResponseEntity<CompanyDto> createCompany (@RequestBody CompanyDto companyDto){
@@ -84,8 +88,8 @@ public class CompanyController {
             @PathVariable("client-id") Long clientId,
             @RequestBody ClientDto clientDto,
             @RequestParam("sum") Optional<Double> sum,
-            @RequestParam("action") Optional<String> action){
-
+            @RequestParam("action") Optional<String> action)
+    {
         ClientDto savedClient = clientService.updateClient(companyId, clientId, clientDto, sum, action);
         return new ResponseEntity<>(savedClient, HttpStatus.OK);
 
