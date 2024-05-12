@@ -108,6 +108,7 @@ public class ClientServiceImpl implements ClientService {
             if (bonusSums[0] > 0) {
                 updatedClient.setBalance(client.getBalance() + bonusSums[0]);
                 tr =  transactionService.createTransaction(companyId, clientId, updatedClient, action.get(), bonusSums[0].doubleValue());
+
             }else{
                 System.out.println("Начислить ничего нельзя :)");
             }

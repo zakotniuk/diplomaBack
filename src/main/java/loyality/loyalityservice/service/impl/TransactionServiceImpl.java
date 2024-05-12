@@ -18,6 +18,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
                                             Double sum) {
 
         Date createDate = clientDto.getUpdateDate();
-        System.out.println(createDate);
+        //System.out.println(createDate);
 
         Transaction transaction = new Transaction();
 
@@ -47,8 +48,16 @@ public class TransactionServiceImpl implements TransactionService {
         SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         transaction.setCreateDate(dt2.format(createDate).toString());
 
-
         Transaction savedTransaction = transactionRepository.save(transaction);
+
+        //drop old transactions (в будущем вынести в отдельную джобу)
+        LocalDate currentDate = LocalDate.now();
+        // Вычитаем 15 дней
+        LocalDate dateX = currentDate.minusDays(15);
+        try {
+            transactionRepository.dropTransactionsByDateX(dateX.toString());
+            System.out.println("Таблица транзакций успешно очищена, остались записи за последние 14 дней.");
+        } catch (Exception e){System.out.println("Очистка всех операций, кроме последних 14 дней не выполнена.");}
 
         return TransactionMapper.mapToTransactionDto(savedTransaction);
     }
