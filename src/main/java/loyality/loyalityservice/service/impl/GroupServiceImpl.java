@@ -2,12 +2,10 @@ package loyality.loyalityservice.service.impl;
 
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.GroupDto;
-import loyality.loyalityservice.entity.Client;
 import loyality.loyalityservice.entity.Group;
 import loyality.loyalityservice.exception.ResourceNotFoundException;
-import loyality.loyalityservice.mapper.ClientMapper;
 import loyality.loyalityservice.mapper.GroupMapper;
-import loyality.loyalityservice.repository.ClientRepository;
+import loyality.loyalityservice.repository.ClientAccountRepository;
 import loyality.loyalityservice.repository.GroupRepository;
 import loyality.loyalityservice.service.GroupService;
 import org.modelmapper.Conditions;
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 public class GroupServiceImpl implements GroupService {
 
     private GroupRepository groupRepository;
-    private ClientRepository clientRepository;
+    private ClientAccountRepository clientRepository;
 
     @Override
     //клиенты ищутся по определенной компании!
@@ -47,8 +45,9 @@ public class GroupServiceImpl implements GroupService {
             group = GroupMapper.mapToGroup(groupDto);
             group.setCompanyId(companyId);
             group.setGroupName(groupDto.getGroupName() != null ? groupDto.getGroupName() : "Новая группа");
-            group.setCondition(100);
-            group.setDiscount(10);
+            group.setCondition(groupDto.getCondition() !=null ? groupDto.getCondition() : 100);
+            group.setDiscount(groupDto.getDiscount() !=null ? groupDto.getDiscount() : 10);
+            group.setAvailablePart(groupDto.getAvailablePart() !=null ? groupDto.getAvailablePart() : 50);
             //если у компании еще нет групп, то ставим новую группу группой по умолчанию
             if(groupRepository.findByCompanyId(companyId) == null || groupRepository.findByCompanyId(companyId).isEmpty()){
                 group.setIsDefault(true);

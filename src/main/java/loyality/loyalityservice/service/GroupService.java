@@ -1,7 +1,5 @@
 package loyality.loyalityservice.service;
 
-import loyality.loyalityservice.dto.ClientDto;
-import loyality.loyalityservice.dto.CompanyDto;
 import loyality.loyalityservice.dto.GroupDto;
 
 import java.util.List;

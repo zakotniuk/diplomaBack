@@ -20,14 +20,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//автоинкремент
     private Long id;
 
-    @Column(name="transaction_id")
-    private String transactionId; //идентификатор операции
+//    @Column(name="transaction_id")
+//    private String transactionId; //идентификатор операции
 
     @Column(name="company_id")
     private Long companyId;
 
-    @Column(name="client_id")
-    private Long clientId;
+    @Column(name="client_account_id")
+    private Long clientAccountId;
 
     private String action; //действие (начисление/списание)
 

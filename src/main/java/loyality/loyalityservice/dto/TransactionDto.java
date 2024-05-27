@@ -18,9 +18,9 @@ import java.util.Date;
 public class TransactionDto {
 
     private Long id;
-    private String transactionId;
+   // private String transactionId;
     private Long companyId;
-    private Long clientId;
+    private Long clientAccountId;
     private String action;
     private Double sum;
     private String createDate;

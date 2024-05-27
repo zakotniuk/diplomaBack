@@ -28,6 +28,7 @@ public class Group {
 
     private Integer condition; //кол-во бонусов на счете для перехода в эту группу (должно проверяться при начис/спис бонусов при покупке)
     private Integer discount;//размер скидки в процентах (0-100%)
+
     private Integer availablePart; //часть, которую можно покрыть баллами (0-100%)
     @Column(name="is_default")
     private Boolean isDefault;//группа по умолчанию

@@ -1,10 +1,7 @@
 package loyality.loyalityservice.repository;
 
-import lombok.Value;
-import loyality.loyalityservice.entity.Client;
 import loyality.loyalityservice.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
