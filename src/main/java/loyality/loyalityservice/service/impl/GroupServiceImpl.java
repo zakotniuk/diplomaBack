@@ -45,9 +45,22 @@ public class GroupServiceImpl implements GroupService {
             group = GroupMapper.mapToGroup(groupDto);
             group.setCompanyId(companyId);
             group.setGroupName(groupDto.getGroupName() != null ? groupDto.getGroupName() : "Новая группа");
-            group.setCondition(groupDto.getCondition() !=null ? groupDto.getCondition() : 100);
-            group.setDiscount(groupDto.getDiscount() !=null ? groupDto.getDiscount() : 10);
-            group.setAvailablePart(groupDto.getAvailablePart() !=null ? groupDto.getAvailablePart() : 50);
+            //setCondition
+            if(groupDto.getCondition() !=null && groupDto.getCondition() >= 1){
+                group.setCondition(groupDto.getCondition());
+            }else {group.setCondition(100);}
+            //setDiscount
+            if(groupDto.getDiscount() !=null && groupDto.getDiscount() >= 1 && groupDto.getDiscount() <= 100){
+                group.setDiscount(groupDto.getDiscount());
+            }else {group.setDiscount(10);}
+            //setAvailablePart
+            if(groupDto.getAvailablePart() !=null && groupDto.getAvailablePart() >= 1 && groupDto.getAvailablePart() <= 100){
+                group.setAvailablePart(groupDto.getAvailablePart());
+            }else {group.setAvailablePart(50);}
+            //group.setCondition(groupDto.getCondition() !=null ? groupDto.getCondition() : 100);
+            //group.setDiscount(groupDto.getDiscount() !=null ? groupDto.getDiscount() : 10);
+            //group.setAvailablePart(groupDto.getAvailablePart() !=null ? groupDto.getAvailablePart() : 50);
+
             //если у компании еще нет групп, то ставим новую группу группой по умолчанию
             if(groupRepository.findByCompanyId(companyId) == null || groupRepository.findByCompanyId(companyId).isEmpty()){
                 group.setIsDefault(true);
@@ -83,6 +96,20 @@ public class GroupServiceImpl implements GroupService {
         //класс для обновления полей в объекте
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+
+        //валидация параметров
+        if(updatedGroup.getDiscount() !=null && updatedGroup.getDiscount() >= 1 && updatedGroup.getDiscount() <= 100){
+            updatedGroup.setDiscount(updatedGroup.getDiscount());
+        }else {
+            throw new ResourceNotFoundException("Значение должно быть от 1 до 100!");
+        }
+        //setAvailablePart
+        if(updatedGroup.getAvailablePart() !=null && updatedGroup.getAvailablePart() >= 1 && updatedGroup.getAvailablePart() <= 100){
+            updatedGroup.setAvailablePart(updatedGroup.getAvailablePart());
+        }else {
+            throw new ResourceNotFoundException("Значение должно быть от 1 до 100!");
+        }
+
         ////Проверка изменения группы по умолчанию////
         //Если в запросе не указали изменение дефолтности групппы
         if (updatedGroup.getIsDefault()==null) {

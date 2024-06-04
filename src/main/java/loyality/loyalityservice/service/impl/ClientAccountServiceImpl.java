@@ -1,5 +1,10 @@
 package loyality.loyalityservice.service.impl;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.AllArgsConstructor;
 import loyality.loyalityservice.dto.ClientAccountDto;
 import loyality.loyalityservice.dto.TransactionDto;
@@ -15,7 +20,10 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,8 +65,32 @@ public class ClientAccountServiceImpl implements ClientAccountService {
         //задаем группу по умолчанию (в рамках конкретной компании)
         clientAccount.setGroupId(gId);
 
-        ClientAccount savedClient = clientAccountRepository.save(clientAccount);
-        return ClientAccountMapper.mapToClientAccountDto(savedClient);
+        ClientAccount savedClientAccount = clientAccountRepository.save(clientAccount);
+
+
+        // Генерация QR-кода
+        try {
+            //сюда в путь нужно указать публичный адрес на страницу добавления счета клиента в определенной компании
+            String url = "http://loyalityService/company/" + savedClientAccount.getId(); // URL, который будет закодирован в QR-код
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 200, 200);
+
+            ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+            byte[] pngData = pngOutputStream.toByteArray();
+
+            // Преобразование массива байтов в строку Base64
+            String base64String = Base64.getEncoder().encodeToString(pngData);
+
+            savedClientAccount.setQrLink(base64String); // обновляем QR-код в компании
+            System.out.println(base64String);
+            savedClientAccount = clientAccountRepository.save(savedClientAccount); // сохраняем обновленную компанию
+        } catch (WriterException | IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return ClientAccountMapper.mapToClientAccountDto(savedClientAccount);
     }
 
 
