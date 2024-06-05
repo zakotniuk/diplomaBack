@@ -43,6 +43,9 @@ public class ClientAccount {
 
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String groupName;
+    @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date updateDate;
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)

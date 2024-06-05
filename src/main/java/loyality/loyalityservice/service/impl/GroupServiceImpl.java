@@ -160,4 +160,10 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
+    @Override
+    public GroupDto getGroupByClient(Long clientId) {
+        Group g =  groupRepository.findByClientId(clientId);
+        return GroupMapper.mapToGroupDto(g);
+    }
+
 }

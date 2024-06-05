@@ -25,4 +25,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             "    WHERE company_id=:companyId " +
             "    AND condition <=:totalClientMonetSpend); ", nativeQuery = true)
     Long getActualGroup(@Param(value="companyId") Long companyId, @Param(value="totalClientMonetSpend") Long totalClientMonetSpend);
+
+    Group findByClientId(Long clientId);
 }

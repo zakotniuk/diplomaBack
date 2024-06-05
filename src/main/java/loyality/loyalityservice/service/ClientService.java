@@ -12,4 +12,6 @@ public interface ClientService {
     ClientDto newClient(ClientDto clientDto);
 
     ClientDto getClientById(Long clientId);
+
+
 }

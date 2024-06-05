@@ -1,6 +1,8 @@
 package loyality.loyalityservice.service;
 
+import loyality.loyalityservice.dto.CliAccDtoForFront;
 import loyality.loyalityservice.dto.ClientAccountDto;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +14,14 @@ public interface ClientAccountService {
 
 
     //клиенты ищутся по определенной компании!
-    List<ClientAccountDto> getAllClientAccounts(Long companyId);
+    List<CliAccDtoForFront> getAllClientAccounts(Long companyId);
 
     //клиенты ищутся по определенной компании!
    // List<ClientAccountDto> getAllClientAccountsByCompanyIdAndClientId(Long companyId, Long clientId);
 
     ClientAccountDto getClientAccountInfo(Long companyId, Long clientAccountId);
+
+    List<CliAccDtoForFront> getAllAcc(Long companyId);
 
     ClientAccountDto updateClientAccount(Long companyId,
                                          Long clientId,

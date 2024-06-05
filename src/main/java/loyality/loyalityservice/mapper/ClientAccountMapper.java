@@ -11,12 +11,14 @@ public class ClientAccountMapper {
                 clientAccount.getId(),
                 clientAccount.getCompanyId(),
                 clientAccount.getGroupId(),
+
                 clientAccount.getClientId(),
 
                 clientAccount.getQrLink(),
                 clientAccount.getBalance(),
                 clientAccount.getTotalMoneySpend(),
 
+                clientAccount.getGroupName(),
                 clientAccount.getUpdateDate(),
                 clientAccount.getBonusSumWriteOn(),
                 clientAccount.getBonusSumWriteOff()
@@ -35,6 +37,7 @@ public class ClientAccountMapper {
                 clientAccountDto.getBalance(),
                 clientAccountDto.getTotalMoneySpend(),
 
+                clientAccountDto.getGroupName(),
                 clientAccountDto.getUpdateDate(),
                 clientAccountDto.getBonusSumWriteOn(),
                 clientAccountDto.getBonusSumWriteOff()

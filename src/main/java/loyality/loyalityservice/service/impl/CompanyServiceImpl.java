@@ -72,6 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(()->
                         new ResourceNotFoundException("Company is not exist with given id: "+ companyId));
+        company.setPassword("****");
         return CompanyMapper.mapToCompanyDto(company);
 
     }

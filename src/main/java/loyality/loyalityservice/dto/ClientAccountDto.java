@@ -21,12 +21,14 @@ public class ClientAccountDto {
 
     private Long companyId;
     private Long groupId;
+
     private Long clientId;
 
     private String qrLink;
     private Long balance;//баллы клиента
     private Long totalMoneySpend; //сумма всех покупок за все время
 
+    private String groupName;
     private Date updateDate;
     private Long bonusSumWriteOn;
     private Long bonusSumWriteOff;

@@ -47,4 +47,6 @@ public class ClientServiceImpl implements ClientService {
         client.setPassword("****");
         return ClientMapper.mapToClientDto(client);
     }
+
+
 }

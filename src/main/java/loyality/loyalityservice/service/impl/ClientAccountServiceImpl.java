@@ -5,7 +5,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import jakarta.persistence.Tuple;
 import lombok.AllArgsConstructor;
+import loyality.loyalityservice.dto.CliAccDtoForFront;
 import loyality.loyalityservice.dto.ClientAccountDto;
 import loyality.loyalityservice.dto.TransactionDto;
 import loyality.loyalityservice.entity.Client;
@@ -18,6 +20,7 @@ import loyality.loyalityservice.service.ClientAccountService;
 import loyality.loyalityservice.service.TransactionService;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -94,12 +97,34 @@ public class ClientAccountServiceImpl implements ClientAccountService {
     }
 
 
+//    @Override
+//    //все счета по компании
+//    public List<ClientAccountDto> getAllClientAccounts(Long companyId) {
+//        List<ClientAccount> clientAccounts = clientAccountRepository.findByCompanyId(companyId);
+//        return clientAccounts.stream().map((clientAccount) -> ClientAccountMapper.mapToClientAccountDto(clientAccount))
+//                .collect(Collectors.toList());
+//    }
+
     @Override
     //все счета по компании
-    public List<ClientAccountDto> getAllClientAccounts(Long companyId) {
-        List<ClientAccount> clientAccounts = clientAccountRepository.findByCompanyId(companyId);
-        return clientAccounts.stream().map((clientAccount) -> ClientAccountMapper.mapToClientAccountDto(clientAccount))
+    public List<CliAccDtoForFront> getAllClientAccounts(Long companyId) {
+        System.out.println("tyt");
+        List<Tuple> clientAccounts = clientAccountRepository.getAllAcc(companyId);
+        List<CliAccDtoForFront> cA = clientAccountRepository.getAllAcc(companyId).stream()
+                .map(tuple -> new CliAccDtoForFront(
+                        tuple.get(0, Long.class),
+                        tuple.get(1, String.class),
+                        tuple.get(2, Long.class),
+                        tuple.get(3, Long.class),
+                        tuple.get(4, Long.class)))
                 .collect(Collectors.toList());
+
+
+        System.out.println(clientAccounts);
+
+        //return clientAccounts.stream().map((clientAccount) -> ClientAccountMapper.mapToClientAccountDto(clientAccount))
+             //   .collect(Collectors.toList());
+        return cA;
     }
 
     @Override
@@ -117,6 +142,11 @@ public class ClientAccountServiceImpl implements ClientAccountService {
                 .orElseThrow(()->
                     new ResourceNotFoundException("Указанного клиента не существует. ID="+ clientAccountId));
         return ClientAccountMapper.mapToClientAccountDto(clientAccount);
+    }
+
+    @Override
+    public List<CliAccDtoForFront> getAllAcc(Long companyId) {
+        return null;
     }
 
     @Override

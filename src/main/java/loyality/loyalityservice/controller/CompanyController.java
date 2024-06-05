@@ -2,9 +2,7 @@ package loyality.loyalityservice.controller;
 
 import lombok.AllArgsConstructor;
 
-import loyality.loyalityservice.dto.ClientAccountDto;
-import loyality.loyalityservice.dto.GroupDto;
-import loyality.loyalityservice.dto.TransactionDto;
+import loyality.loyalityservice.dto.*;
 import loyality.loyalityservice.service.ClientAccountService;
 import loyality.loyalityservice.service.CompanyService;
 import loyality.loyalityservice.service.GroupService;
@@ -13,7 +11,6 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import loyality.loyalityservice.dto.CompanyDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,8 +49,8 @@ public class CompanyController {
     ////////////////////СЧЕТА КЛИЕНТОВ//////////////////////
     @GetMapping("/{id}/all-client-accounts")
     //получить список всех счетов клиентов по компании
-    public ResponseEntity<List<ClientAccountDto>> getAllClientAccounts(@PathVariable("id") Long companyId){
-        List<ClientAccountDto> clients = clientAccountService.getAllClientAccounts(companyId);
+    public ResponseEntity<List<CliAccDtoForFront>> getAllClientAccounts(@PathVariable("id") Long companyId){
+        List<CliAccDtoForFront> clients = clientAccountService.getAllClientAccounts(companyId);
         return ResponseEntity.ok(clients);
     }
     @PostMapping("/{id}/new-account")
