@@ -40,10 +40,10 @@ public class ClientAccount {
     private Long balance;//баллы клиента
     @Column(name="total_money")
     private Long totalMoneySpend; //сумма всех покупок за все время
-
-    @Transient
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String groupName;
+//
+//    @Transient
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    private String groupName;
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date updateDate;

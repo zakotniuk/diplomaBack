@@ -74,7 +74,9 @@ public class ClientAccountServiceImpl implements ClientAccountService {
         // Генерация QR-кода
         try {
             //сюда в путь нужно указать публичный адрес на страницу добавления счета клиента в определенной компании
-            String url = "http://loyalityService/company/" + savedClientAccount.getId(); // URL, который будет закодирован в QR-код
+            //String url = "http://localhost:3002/v1/company/"+ companyId + "/client-account-info/" + savedClientAccount.getId(); // URL, который будет закодирован в QR-код
+            String url = "{\"companyId\":"+ companyId + ", \"accountId\":" + savedClientAccount.getId() + "}"; // URL, который будет закодирован в QR-код
+
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 200, 200);
 

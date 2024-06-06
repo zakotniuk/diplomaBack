@@ -28,7 +28,7 @@ public class ClientAccountDto {
     private Long balance;//баллы клиента
     private Long totalMoneySpend; //сумма всех покупок за все время
 
-    private String groupName;
+//    private String groupName;
     private Date updateDate;
     private Long bonusSumWriteOn;
     private Long bonusSumWriteOff;

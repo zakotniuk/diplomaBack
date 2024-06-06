@@ -17,5 +17,5 @@ public interface GroupService {
 
     void deleteGroup(Long companyId, Long groupId);
 
-    GroupDto getGroupByClient(Long clientId);
+    //GroupDto getGroupByClient(Long clientId);
 }

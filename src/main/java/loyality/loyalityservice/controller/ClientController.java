@@ -43,19 +43,19 @@ public class ClientController {
     }
 
 
-    @GetMapping("/{id}/accounts")
-    public ResponseEntity<List<ClientAccountDto>> getAllClientAccountsByClient(@PathVariable("id") Long clientId){
-        List<ClientAccountDto> clients = clientAccountService.getAllClientAccountsByClient(clientId);
-        //GroupDto groupName = groupService.getGroupByClient(clientId);
-
-        return ResponseEntity.ok(clients);
-    }
-
 //    @GetMapping("/{id}/accounts")
 //    public ResponseEntity<List<ClientAccountDto>> getAllClientAccountsByClient(@PathVariable("id") Long clientId){
 //        List<ClientAccountDto> clients = clientAccountService.getAllClientAccountsByClient(clientId);
+//        //GroupDto groupName = groupService.getGroupByClient(clientId);
+//
 //        return ResponseEntity.ok(clients);
 //    }
+
+    @GetMapping("/{id}/accounts")
+    public ResponseEntity<List<ClientAccountDto>> getAllClientAccountsByClient(@PathVariable("id") Long clientId){
+        List<ClientAccountDto> clients = clientAccountService.getAllClientAccountsByClient(clientId);
+        return ResponseEntity.ok(clients);
+    }
 
 
 //    //получить информацию о клиенте
